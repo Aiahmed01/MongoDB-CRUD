@@ -19,7 +19,7 @@ const userController = {
 
   // Get a single user by id
   getUserById(req, res) {
-    User.findOne({ _id: req.params.id })
+    User.findOne({ _id: req.params.userId })
       .populate({
         path: 'thoughts',
         select: '-__v',
@@ -53,7 +53,7 @@ const userController = {
 
   // Update a user by id
   updateUser(req, res) {
-    User.findOneAndUpdate({ _id: req.params.id }, req.body, {
+    User.findOneAndUpdate({ _id: req.params.userId }, req.body, {
       new: true,
       runValidators: true,
     })
@@ -71,7 +71,7 @@ const userController = {
 
   // Delete a user by id
   deleteUser(req, res) {
-    User.findOneAndDelete({ _id: req.params.id })
+    User.findOneAndDelete({ _id: req.params.userId })
       .then((dbUserData) => {
         if (!dbUserData) {
           return res.status(404).json({ message: 'No user found with this id' });
@@ -80,7 +80,7 @@ const userController = {
         // Remove the user from their friends' friend lists
         User.updateMany(
           { _id: { $in: dbUserData.friends } },
-          { $pull: { friends: req.params.id } }
+          { $pull: { friends: req.params.userId } }
         )
           .then(() => {
             // Remove the user's thoughts
