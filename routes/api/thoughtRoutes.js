@@ -15,14 +15,10 @@ router.route('/').get(getAllThoughts);
 // GET /api/thoughts/:thoughtId
 router.route('/:thoughtId').get(getThoughtById);
 
-
+// the post routes ids are not fixed this is for next time.
 // POST /api/thoughts
 router.route('/').post(createThought);
-// {
-//     "userId": "60e9f2643a2c08346406a64c",
-//      "username": "alex789",
-//     "thoughtText": "This is a new thought."
-//   }
+
 // PUT /api/thoughts/:thoughtId
 router.route('/:thoughtId').put(updateThought);
 
