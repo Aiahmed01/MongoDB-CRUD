@@ -1,15 +1,9 @@
-const { User, Thought, Reaction } = require('../models');
+const { User, Thought } = require('../models');
 
 const thoughtController = {
   // Get all thoughts
   getAllThoughts(req, res) {
     Thought.find({})
-      .populate({
-        path: 'reactions',
-        select: '-__v',
-      })
-      .select('-__v')
-      .sort({ _id: -1 })
       .then((dbThoughtData) => res.json(dbThoughtData))
       .catch((err) => {
         console.log(err);
@@ -19,11 +13,7 @@ const thoughtController = {
 
   // Get a single thought by id
   getThoughtById(req, res) {
-    Thought.findOne({ _id: req.params.id })
-      .populate({
-        path: 'reactions',
-        select: '-__v',
-      })
+    Thought.findOne({ _id: req.params.thoughtId })
       .select('-__v')
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
@@ -38,6 +28,7 @@ const thoughtController = {
   },
 
   // Create a new thought
+  // review after more test
   createThought(req, res) {
     Thought.create(req.body)
       .then((dbThoughtData) => {
@@ -62,10 +53,11 @@ const thoughtController = {
 
   // Update a thought by id
   updateThought(req, res) {
-    Thought.findOneAndUpdate({ _id: req.params.id }, req.body, {
-      new: true,
-      runValidators: true,
-    })
+    Thought.findOneAndUpdate(
+      { _id: req.params.id },
+       {$set: req.body} ,
+      { new: true, runValidators: true,})
+
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
           return res.status(404).json({ message: 'No thought found with this id' });
@@ -88,8 +80,8 @@ const thoughtController = {
 
         // Remove the thought's id from the associated user's thoughts array
         return User.findOneAndUpdate(
-          { thoughts: req.params.id },
-          { $pull: { thoughts: req.params.id } },
+          { thoughts: req.params.thoughtId },
+          { $pull: { thoughts: req.params.thoughtId } },
           { new: true }
         );
       })
@@ -109,7 +101,7 @@ const thoughtController = {
   addReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
-      { $push: { reactions: req.body } },
+      { $addToset: { reactions: req.body } },
       { new: true, runValidators: true }
     )
       .then((dbThoughtData) => {

@@ -1,15 +1,9 @@
-const { User, Thought, Reaction } = require('../models');
+const { User, Thought } = require('../models');
 
 const userController = {
   // Get all users
   getAllUsers(req, res) {
     User.find({})
-      .populate({
-        path: 'thoughts',
-        select: '-__v',
-      })
-      .select('-__v')
-      .sort({ _id: -1 })
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => {
         console.log(err);
@@ -20,14 +14,8 @@ const userController = {
   // Get a single user by id
   getUserById(req, res) {
     User.findOne({ _id: req.params.userId })
-      .populate({
-        path: 'thoughts',
-        select: '-__v',
-      })
-      .populate({
-        path: 'friends',
-        select: '-__v',
-      })
+      .populate('thoughts')
+      .populate('friends')
       .select('-__v')
       .then((dbUserData) => {
         if (!dbUserData) {
@@ -53,10 +41,11 @@ const userController = {
 
   // Update a user by id
   updateUser(req, res) {
-    User.findOneAndUpdate({ _id: req.params.userId }, req.body, {
-      new: true,
-      runValidators: true,
-    })
+    User.findOneAndUpdate(
+      { _id: req.params.userId }, 
+      {$set: req.body},
+      {new: true, runValidators: true}
+      )
       .then((dbUserData) => {
         if (!dbUserData) {
           return res.status(404).json({ message: 'No user found with this id' });
@@ -107,7 +96,7 @@ const userController = {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $addToSet: { friends: req.params.friendId } },
-      { new: true }
+      { new: true, runValidators: true }
     )
       .then((dbUserData) => {
         if (!dbUserData) {
@@ -126,7 +115,7 @@ const userController = {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $pull: { friends: req.params.friendId } },
-      { new: true }
+      { new: true, runValidators: true }
     )
       .then((dbUserData) => {
         if (!dbUserData) {
