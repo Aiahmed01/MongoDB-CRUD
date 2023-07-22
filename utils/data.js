@@ -1,16 +1,14 @@
-// Generate a random username
-const getRandomUsername = () => {
-    const usernames = ['john123', 'emma456', 'alex789', 'lucas321', 'sophia654'];
-    const randomIndex = Math.floor(Math.random() * usernames.length);
-    return usernames[randomIndex];
-  };
-  
-  // Generate a random email
-  const getRandomEmail = () => {
-    const emails = ['john@example.com', 'emma@example.com', 'alex@example.com', 'lucas@example.com', 'sophia@example.com'];
-    const randomIndex = Math.floor(Math.random() * emails.length);
-    return emails[randomIndex];
-  };
-  
-  module.exports = { getRandomUsername, getRandomEmail };
-  
+// Generate a username
+  let usernames = ['johnn123', 'emmaa456', 'alexx789', 'lucas321', 'sophiaa654'];
+ 
+
+// Generate an email
+  let emails = ['johnn@example.com', 'emmaa@example.com', 'alexx@example.com', 'lucass@example.com', 'sophiaa@example.com'];
+
+
+
+
+module.exports = { emails, usernames };
+
+
+

@@ -1,6 +1,6 @@
 const connection = require('../config/connection');
 const { User, Thought } = require('../models');
-const { getRandomUsername, getRandomEmail } = require('./data');
+const { usernames, emails } = require('./data');
 
 connection.on('error', (err) => {
   console.error('MongoDB connection error:', err);
@@ -18,10 +18,11 @@ connection.once('open', async () => {
     const thoughts = [];
 
     // Create users
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < emails.length; i++) {
+     
       const user = {
-        username: getRandomUsername(),
-        email: getRandomEmail(),
+        username:usernames[i],
+        email:emails[i],
         thoughts: [],
         friends: [],
       };
