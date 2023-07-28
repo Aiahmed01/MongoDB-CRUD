@@ -31,7 +31,7 @@ This is an API for a social network web application where users can share their 
 
 ## API Endpoints:
 
-# Users
+# Users API's
 ```
 GET /api/users: Get all users.
 GET /api/users/:id: Get a single user by its ID.
@@ -41,7 +41,7 @@ DELETE /api/users/:id: Delete a user by its ID.
 POST /api/users/:userId/friends/:friendId: Add a friend to a user's friend list.
 DELETE /api/users/:userId/friends/:friendId: Remove a friend from a user's friend list.
 ```
-# Thoughts
+# Thoughts API's
 ```
 GET /api/thoughts: Get all thoughts.
 GET /api/thoughts/:id: Get a single thought by its ID.
@@ -52,9 +52,8 @@ POST /api/thoughts/:thoughtId/reactions: Add a reaction to a thought.
 DELETE /api/thoughts/:thoughtId/reactions/:reactionId: Remove a reaction from a thought.
 ```
 
-```
-Walkthrough Video :
-```
+## Walkthrough Video :  [Video](https://drive.google.com/file/d/1ebSbTMArKbuGD1Xf8jHmpZ0p9qPECTnU/view)
+
 
 
 ## Usage
